@@ -1,8 +1,14 @@
-﻿using FuzzyComparer;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Extensions;
+using BenchmarkDotNet.Loggers;
+using BenchmarkDotNet.Running;
+using FuzzyComparer;
 using System.Diagnostics;
 
 namespace FuzzyComparerTests
 {
+
     public class FuzzyStringCompareTests
     {
         [TestCase(null, null, 1)]
@@ -57,45 +63,26 @@ namespace FuzzyComparerTests
             //PrintMatrix(matrix, src, modified);
         }
 
-        [Test, Ignore("")]
-        public void PerfTest()
+        [Test ,Ignore("")]
+        public void RunBenchmarkTest()
         {
-            var fuzzyComparers = new IFuzzyStringComparer[] { new FuzzyComparerDamareuLevenshtein() };
+            var logger = new AccumulationLogger();
+            var config = DefaultConfig.Instance.AddLogger(logger);
+            config.WithOptions(ConfigOptions.DisableOptimizationsValidator);
+            var summary = BenchmarkRunner.Run<FuzzyStringCompareTests>(config);
+            
+        }
 
-            for (int x = 0; x < 10; x++)
-            {
-                var perfResults = new Dictionary<string, List<double>>();
+        [Benchmark()]
+        public double StringComparisonOrdinalIgnoreCase()
+        {
+            return string.Equals("View tickets", "viwe ticket", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+        }
 
-                foreach (var fuzzyComparer in fuzzyComparers)
-                {
-                    perfResults[fuzzyComparer.GetType().Name] = new List<double>();
-                    var st = new Stopwatch();
-                    for (int i = 0; i < 100000; i++)
-                    {
-                        st.Restart();
-                        _ = fuzzyComparer.Similarity("View tickets", "viwe ticket");
-                        st.Stop();
-
-                        perfResults[fuzzyComparer.GetType().Name].Add(st.Elapsed.TotalMilliseconds);
-                    }
-                }
-
-                foreach (var item in perfResults)
-                {
-                    Console.WriteLine($"{item.Key,-38} | {item.Value.Skip(1).Average(),-25} | {item.Value.Skip(1).Sum(),-25} | {item.Value.Skip(1).Min(),-25} | {item.Value.Skip(1).Max(),-25} | {CalculateStandardDeviation(item.Value.Skip(1)),-25}");
-                }
-            }
-
-            static double CalculateStandardDeviation(IEnumerable<double> values)
-            {
-                int count = values.Count();
-
-                double average = values.Average();
-                double sum = values.Sum(d => Math.Pow(d - average, 2));
-                double deviation = Math.Sqrt(sum / (count - 1));
-
-                return deviation;
-            }
+        [Benchmark()]
+        public double FuzzyComparerDamareuLevenshtein()
+        {
+            return new FuzzyComparerDamareuLevenshtein().Similarity("View tickets", "viwe ticket");
         }
 
 
