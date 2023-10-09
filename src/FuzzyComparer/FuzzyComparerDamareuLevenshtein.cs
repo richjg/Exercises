@@ -83,42 +83,6 @@ namespace FuzzyComparer
             }
 
             return matrix;
-
-            ////debug show matrix
-            //for (int i = 0; i < matrix.GetLength(0); i++)
-            //{
-            //    if (i == 0)
-            //    {
-            //        Console.Write("\t\t");
-            //        foreach (var c in modified)
-            //        {
-            //            Console.Write(c + "\t");
-            //        }
-            //        Console.WriteLine();
-            //    }
-
-            //    for (int j = 0; j < matrix.GetLength(1); j++)
-            //    {
-            //        //(j == 0 && i > 0 && i < original.Length? original[i-1] + "\t" : " " + "\t" +
-
-            //        if (i == 0 & j == 0)
-            //        {
-            //            Console.Write("\t");
-            //        }
-
-            //        if (i > 0 & j == 0)
-            //        {
-            //            Console.Write(original[i - 1] + "\t");
-            //        }
-
-            //        Console.Write(matrix[i, j] + "\t");
-            //    }
-            //    Console.WriteLine();
-            //}
-
-            //Console.WriteLine();
-            //Console.WriteLine();
-            //Console.WriteLine(matrix[len_orig, len_diff]);
         }
     }
 }
