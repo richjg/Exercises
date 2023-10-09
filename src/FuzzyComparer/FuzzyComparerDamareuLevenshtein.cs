@@ -8,7 +8,7 @@ namespace FuzzyComparer
 {
     public class FuzzyComparerDamareuLevenshtein : IFuzzyStringComparer
     {
-        public double Similarity(string src, string modified)
+        public double Similarity(string? src, string? modified)
         {
             src ??= string.Empty;
             modified ??= string.Empty;
@@ -26,7 +26,7 @@ namespace FuzzyComparer
             return result;
         }
 
-        public int GetDistance(string original, string modified)
+        public int GetDistance(string? original, string? modified)
         {
             original ??= string.Empty;
             modified ??= string.Empty;
@@ -35,7 +35,7 @@ namespace FuzzyComparer
             return matrix[original.Length, modified.Length];
         }
 
-        public int[,] GetMatrix(string original, string modified)
+        public int[,] GetMatrix(string? original, string? modified)
         {
             //this follows the https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
             //apprently lucence use's Levenshtein https://lucene.apache.org/core/7_3_0/core/org/apache/lucene/search/FuzzyQuery.html

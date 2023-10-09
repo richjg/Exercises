@@ -19,7 +19,7 @@ namespace FuzzyComparerTests
         [TestCase("查看门票", "查看门票", 1)]
         [TestCase("查看门票", "成为门票", 0.5)]
         [TestCase("honda", "ohnda", 0.80)]
-        public void SimilarityDamareuLevenshtein_ReturnsExpectedValues(string src, string modified, double expected)
+        public void SimilarityDamareuLevenshtein_ReturnsExpectedValues(string? src, string? modified, double expected)
         {
             var fuzzyComparer = new FuzzyComparerDamareuLevenshtein();
             var result = fuzzyComparer.Similarity(src, modified);
@@ -46,7 +46,7 @@ namespace FuzzyComparerTests
         [TestCase("sturgeon", "urgently", 6)]
         [TestCase("levenshtein", "frankenstein", 6)]
         [TestCase("distance", "difference", 5)]
-        public void GetDistanceDamareuLevenshtein_ReturnsExpectedValues(string src, string modified, int expected)
+        public void GetDistanceDamareuLevenshtein_ReturnsExpectedValues(string? src, string? modified, int expected)
         {
             var fuzzyComparer = new FuzzyComparerDamareuLevenshtein();
             var result = fuzzyComparer.GetDistance(src, modified);
